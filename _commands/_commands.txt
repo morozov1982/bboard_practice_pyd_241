@@ -34,4 +34,6 @@
 
 11. Отправляем на гитхаб:
 
-    $git add --all
+    $ git add --all
+    $ git commit -m "<комментарий>"
+    $ git push origin <имя ветки>
