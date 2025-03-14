@@ -56,8 +56,7 @@
                     </div>
 
                 {% else %}
-                    <a href="{% url 'main:register' %}"
-                       class="nav-link">Регистрация</a>
+                    <a href="#" class="nav-link">Регистрация</a>
                     <a href="{% url 'main:login' %}" class="nav-link">Вход</a>
                 {% endif %}
             </div>
