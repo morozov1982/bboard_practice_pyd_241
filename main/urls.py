@@ -1,7 +1,7 @@
 from django.urls import path
 
 from main.views import (index, other_page, BBLoginView, profile, BBLogoutView,
-                        ProfileEditView, PasswordEditView,
+                        ProfileEditView, ProfileDeleteView, PasswordEditView,
                         RegisterView, RegisterDoneView,
                         user_activate)
 
@@ -14,6 +14,7 @@ urlpatterns = [
     path('accounts/register/', RegisterView.as_view(), name='register'),
 
     path('accounts/password/edit/', PasswordEditView.as_view(), name='password_edit'),
+    path('accounts/profile/delete/', ProfileDeleteView.as_view(), name='profile_delete'),
     path('accounts/profile/edit/', ProfileEditView.as_view(), name='profile_edit'),
     path('accounts/profile/', profile, name='profile'),
 
