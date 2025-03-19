@@ -2,7 +2,8 @@ import datetime
 
 from django.contrib import admin
 
-from main.models import AdvUser
+from main.forms import SubRubricForm
+from main.models import AdvUser, SubRubric, SuperRubric
 from main.utilities import send_activation_notification
 
 
@@ -39,6 +40,7 @@ class NonactivatedFilter(admin.SimpleListFilter):
                                    date_joined__date__lt=d)
 
 
+@admin.register(AdvUser)
 class AdvUserAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'is_activated', 'date_joined')
     search_fields = ('username', 'email', 'first_name', 'last_name')
@@ -51,6 +53,20 @@ class AdvUserAdmin(admin.ModelAdmin):
     actions = (send_notification,)
 
 
-admin.site.register(AdvUser, AdvUserAdmin)
+class SubRubricInline(admin.TabularInline):
+    model = SubRubric
+
+
+@admin.register(SuperRubric)
+class SuperRubricAdmin(admin.ModelAdmin):
+    exclude = ('super_rubric',)
+    inlines = (SubRubricInline,)
+
+
+@admin.register(SubRubric)
+class SubRubricAdmin(admin.ModelAdmin):
+    form = SubRubricForm
+
+# admin.site.register(AdvUser, AdvUserAdmin)
 
 

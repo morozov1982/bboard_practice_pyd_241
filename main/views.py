@@ -114,3 +114,6 @@ class ProfileDeleteView(SuccessMessageMixin, LoginRequiredMixin, DeleteView):
             queryset = self.get_queryset()
         return get_object_or_404(queryset, pk=self.user_id)
 
+
+def rubric_bbs(request, pk):
+    pass
