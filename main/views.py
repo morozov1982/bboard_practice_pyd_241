@@ -3,7 +3,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.core.paginator import Paginator
 from django.core.signing import BadSignature
+from django.db.models import Q
 from django.http import Http404, HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.template.exceptions import TemplateDoesNotExist
@@ -12,8 +14,8 @@ from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-from main.forms import ProfileEditForm, RegisterForm
-from main.models import AdvUser
+from main.forms import ProfileEditForm, RegisterForm, SearchForm
+from main.models import AdvUser, SubRubric, Bb
 from main.utilities import signer
 
 
@@ -116,4 +118,28 @@ class ProfileDeleteView(SuccessMessageMixin, LoginRequiredMixin, DeleteView):
 
 
 def rubric_bbs(request, pk):
-    pass
+    rubric = get_object_or_404(SubRubric, pk=pk)
+    bbs = Bb.objects.filter(user_active=True, rubric=pk)
+
+    if 'keyword' in request.GET:
+        keyword = request.GET['keyword']
+        # q = Q(title__icontains=keyword) | Q(content__icontains=keyword)
+        q = Q(title__iregex=keyword) | Q(content__iregex=keyword)
+        bbs = bbs.filter(q)
+    else:
+        keyword = ''
+
+    form = SearchForm(initial={'keyword': keyword})
+
+    paginator = Paginator(bbs, 2)
+
+    if 'page' in request.GET:
+        page_num = request.GET['page']
+    else:
+        page_num = 1
+
+    page = paginator.get_page(page_num)
+    context = {'rubric': rubric, 'page': page,
+               'bbs': page.object_list, 'form': form}
+
+    return render(request, 'main/rubric_bbs.html', context)
