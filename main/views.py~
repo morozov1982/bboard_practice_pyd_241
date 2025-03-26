@@ -119,7 +119,7 @@ class ProfileDeleteView(SuccessMessageMixin, LoginRequiredMixin, DeleteView):
 
 def rubric_bbs(request, pk):
     rubric = get_object_or_404(SubRubric, pk=pk)
-    bbs = Bb.objects.filter(is_active=True, rubric=pk)
+    bbs = Bb.objects.filter(user_active=True, rubric=pk)
 
     if 'keyword' in request.GET:
         keyword = request.GET['keyword']

@@ -2,7 +2,7 @@
 
 {% load thumbnail %}
 {% load static %}
-{% load django_bootstrap5 %}
+{% load django_bootstrap %}
 
 {% block title %}{{ rubric }}{% endblock %}
 
