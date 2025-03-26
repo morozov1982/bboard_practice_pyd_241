@@ -39,7 +39,9 @@ class BBLoginView(LoginView):
 
 @login_required
 def profile(request):
-    return render(request, 'main/profile.html')
+    bbs = Bb.objects.filter(author=request.user.pk)
+    context = {'bbs': bbs}
+    return render(request, 'main/profile.html', context)
 
 
 class BBLogoutView(LogoutView):
