@@ -155,8 +155,5 @@ def bb_detail(request, rubric_pk, pk):
     context = {'bb': bb, 'ais': ais}
     return render(request, 'main/bb_detail.html', context)
 
-def profile_bb_detail(request, pk):
-    bb = get_object_or_404(Bb, pk=pk)
-    ais = bb.additionalimage_set.all()
-    context = {'bb': bb, 'ais': ais}
-    return render(request, 'main/profile_bb_detail.html', context)
+def profile_bb_detail():
+    pass
