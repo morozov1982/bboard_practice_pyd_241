@@ -15,7 +15,7 @@ from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-from main.forms import ProfileEditForm, RegisterForm, SearchForm, BbForm, AIFormSet
+from main.forms import ProfileEditForm, RegisterForm, SearchForm, BbForm, AIFormSet, UserCommentForm, GuestCommentForm
 from main.models import AdvUser, SubRubric, Bb
 from main.utilities import signer
 
@@ -152,6 +152,28 @@ def rubric_bbs(request, pk):
 
 def bb_detail(request, rubric_pk, pk):
     bb = get_object_or_404(Bb, pk=pk)
+
+    initial = {'bb': bb.pk}
+    if request.user.is_authenticated:
+        initial['author'] = request.user.username
+        form_class = UserCommentForm
+    else:
+        form_class = GuestCommentForm
+
+    form = form_class(initial=initial)
+
+    if request.method == 'POST':
+        c_form = form_class(request.POST)
+        if c_form.is_valid():
+            c_form.save()
+            messages.add_message(request, messages.SUCCESS,
+                                 'Комментарий добавлен')
+            return redirect(request.get_full_path_info())
+        else:
+            form = c_form
+            messages.add_message(request, messages.WARNING,
+                                 'Комментарий не добавлен')
+
     ais = bb.additionalimage_set.all()
     context = {'bb': bb, 'ais': ais}
     return render(request, 'main/bb_detail.html', context)
@@ -200,3 +222,16 @@ def profile_bb_edit(request, pk):
 
     context = {'form': form, 'formset': formset}
     return render(request, 'main/profile_bb_edit.html', context)
+
+
+@login_required
+def profile_bb_delete(request, pk):
+    bb = get_object_or_404(Bb, pk=pk)
+    if request.method == 'POST':
+        bb.delete()
+        messages.add_message(request, messages.SUCCESS,
+                             'Объявление удалено')
+        return redirect('main:profile')
+    else:
+        context = {'bb': bb}
+    return render(request, 'main/profile_bb_delete.html', context)

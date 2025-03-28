@@ -1,5 +1,7 @@
 {% extends 'layout/basic.html' %}
 
+{% load django_bootstrap5 %}
+
 {% block title %}{{ bb.title }} - {{ bb.rubric.name }}{% endblock %}
 
 {% block content %}
@@ -27,4 +29,17 @@
         {% endfor %}
     </div>
 {% endif %}
+    <p><a href="{% url 'main:rubric_bbs' pk=bb.rubric.pk %}{{ all }}">
+            Назад</a></p>
+
+
+    <h4 class="mt-5">Новый комментарий</h4>
+    <form method="post">
+        {% csrf_token %}
+        {% bootstrap_form form layout='horizontal' %}
+        {% bootstrap_button 'Добавить' %}
+    </form>
+
+    
+
 {% endblock %}
