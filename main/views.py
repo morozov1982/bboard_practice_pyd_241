@@ -183,8 +183,11 @@ def bb_detail(request, rubric_pk, pk):
 
 def profile_bb_detail(request, pk):
     bb = get_object_or_404(Bb, pk=pk)
+
+    comments = Comment.objects.filter(bb=pk, is_active=True)
+
     ais = bb.additionalimage_set.all()
-    context = {'bb': bb, 'ais': ais}
+    context = {'bb': bb, 'ais': ais, 'comments': comments}
     return render(request, 'main/profile_bb_detail.html', context)
 
 @login_required

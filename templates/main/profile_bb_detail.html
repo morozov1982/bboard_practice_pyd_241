@@ -29,4 +29,19 @@
 {% endif %}
     <p><a href="{% url 'main:profile' %}">
             Назад</a></p>
+
+
+    {% if comments %}
+    <h4 class="mt-5">Комментарии</h4>
+        <div class="vstack gap-3 mt-4">
+        {% for comment in comments %}
+            <div class="p-2 border">
+                <h5>{{ comment.author }}</h5>
+                <p>{{ comment.content }}</p>
+                <p class="text-end fst-italic">{{ comment.created_at }}</p>
+            </div>
+        {% endfor %}
+        </div>
+    {% endif %}
+
 {% endblock %}
