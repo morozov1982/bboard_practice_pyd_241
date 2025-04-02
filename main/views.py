@@ -23,12 +23,14 @@ from main.utilities import signer
 def index(request):
     bbs = Bb.objects.filter(is_active=True).select_related('rubric')[:10]
     context = {'bbs': bbs}
-    return render(request, 'main/index.html', context)
+    # return render(request, 'main/index.html', context)
+    return render(request, 'index.html', context)
 
 
 def other_page(request, page):
     try:
-        template = get_template('main/' + page + '.html')
+        # template = get_template('main/' + page + '.html')
+        template = get_template(page + '.html')
     except TemplateDoesNotExist:
         raise Http404
     return HttpResponse(template.render(request=request))
