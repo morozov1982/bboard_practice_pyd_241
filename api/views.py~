@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
 
-from main.models import Bb, Comment
+from main.models import Bb
 from api.serializers import BbSerializer, BbDetailSerializer, CommentSerializer
 
 
@@ -31,8 +31,4 @@ def comments(request, pk):
             return Response(serializer.data, status=HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
-    else:
-        comments = Comment.objects.filter(is_active=True, bb=pk)
-        serializer = CommentSerializer(comments, many=True)
-        return Response(serializer.data)
-
+    
