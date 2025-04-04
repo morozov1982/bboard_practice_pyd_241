@@ -49,7 +49,7 @@
                         <img src="{{ ai.image.url }}" alt="{{ bb.title }}">
                     </li>
                     {% endfor %}
-
+                
                   <!-- items mirrored twice, total of 12 -->
                 </ul>
               </div>

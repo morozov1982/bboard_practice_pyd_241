@@ -33,7 +33,7 @@
 
             {% for bb in bbs %}
                 <div id="{{ bb.pk }}" class="item new col-md-4">
-                  <a href="{% url 'main:bb_detail' rubric_pk=bb.rubric.pk pk=bb.pk %}">
+                  <a href="{% url 'main:bb_detail' rubric_pk=rubric.pk pk=bb.pk %}">
                     <div class="featured-item">
                       <img src="{{ bb.image.url }}" alt="{{ bb.title }}">
                       <h4>{{ bb.title }}</h4>
