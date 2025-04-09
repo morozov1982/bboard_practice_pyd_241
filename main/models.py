@@ -57,6 +57,9 @@ class SubRubricManager(models.Manager):
 
 
 class SubRubric(Rubric):
+    """
+    Модель подрубрики
+    """
     objects = SubRubricManager()
 
     def __str__(self):

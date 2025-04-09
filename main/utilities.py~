@@ -14,8 +14,6 @@ main_menu = [
 ]
 
 def get_menu(active_menu_item=0):
-    for item in main_menu:
-        item['active'] = False
     main_menu[active_menu_item]['active'] = True
     return main_menu
 
